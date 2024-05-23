@@ -112,15 +112,51 @@ O **Cassandra** é um banco de dados NoSQL distribuído e altamente escalável, 
 
 -------------------------------------------------------------------------------------------------------------------------
 
+## Introdução ao Apache Hive
+O Apache Hive é um sistema de data warehousing e análise de dados construído em cima do Hadoop. Ele facilita a consulta e o gerenciamento de grandes conjuntos de dados armazenados no Hadoop Distributed File System (HDFS) usando uma linguagem semelhante ao SQL, conhecida como HiveQL (Hive Query Language). O Hive foi desenvolvido inicialmente pelo Facebook para lidar com a crescente quantidade de dados que precisavam ser analisados, e hoje é amplamente utilizado por muitas organizações para big data analytics.
 
-# Hive
-Análise de banco de dados
+## Hive vs. SQL
+### Semelhanças
+- **Linguagem**: HiveQL, a linguagem de consulta do Hive, é muito similar ao SQL, o que facilita a adoção por desenvolvedores familiarizados com bancos de dados relacionais.
+- **Consultas**: Assim como no SQL, o HiveQL permite a execução de operações de consulta, agregação, filtragem e junção de dados.
+
+### Diferenças
+- **Execução**: As consultas HiveQL são convertidas em jobs MapReduce, Tez ou Spark, que são executados em um cluster Hadoop. Isso difere do SQL tradicional, onde as consultas são executadas em um servidor de banco de dados.
+- **Desempenho**: Devido à natureza distribuída do Hadoop, o Hive é otimizado para leitura de grandes volumes de dados, mas pode ser mais lento para operações de escrita e atualização frequentes.
+- **Esquema em Leitura**: O Hive utiliza um conceito de "schema on read", onde o esquema é aplicado aos dados apenas durante a leitura, ao contrário dos bancos de dados relacionais tradicionais que utilizam "schema on write".
+
+## Por Que o Hive Surgiu
+O Hive surgiu como uma solução para permitir que usuários familiarizados com SQL pudessem trabalhar com grandes conjuntos de dados armazenados no Hadoop sem precisar escrever código MapReduce. Sua criação foi motivada pela necessidade de:
+- **Facilidade de Uso**: Prover uma interface SQL-like para Hadoop, facilitando a adoção e o uso por analistas de dados e engenheiros de dados.
+- **Escalabilidade**: Habilitar a análise de grandes volumes de dados, aproveitando a escalabilidade e capacidade de processamento distribuído do Hadoop.
+- **Integração**: Permitir a integração com outras ferramentas e frameworks do ecossistema Hadoop, como Pig, HBase e Spark.
+
+## Função do Hive em um Ambiente de Big Data
+O Apache Hive desempenha um papel crucial em ambientes de big data, proporcionando uma interface familiar para consulta e análise de dados armazenados no HDFS. Suas principais funções incluem:
+- **Data Warehousing**: Hive é frequentemente usado como um data warehouse para armazenar e consultar grandes volumes de dados históricos.
+- **ETL**: Hive é usado em processos de ETL (Extract, Transform, Load) para transformar e preparar dados para análise.
+- **Análise Ad-hoc**: Permite aos usuários realizar consultas ad-hoc sobre grandes conjuntos de dados para extrair insights e gerar relatórios.
+- **Integração com Ferramentas de BI**: Hive pode ser integrado com ferramentas de Business Intelligence (BI) para visualização e análise de dados.
+  
+## Partições no Hive
+### O Que São Partições?
+Partições no Hive são uma forma de dividir grandes conjuntos de dados em partes menores, baseadas no valor de uma ou mais colunas. Isso melhora significativamente o desempenho das consultas, pois permite que apenas as partições relevantes sejam lidas e processadas.
+
+### Como Funciona?
+Ao criar uma tabela particionada, o Hive armazena os dados em subdiretórios separados no HDFS, cada um correspondente a um valor específico da coluna de partição. Por exemplo, se uma tabela for particionada pela coluna `data`, os dados serão armazenados em subdiretórios como `data=2023-01-01/`, `data=2023-01-02/`, etc.
+
+## Possibilidades e Benefícios ao Usar o Hive
+- **Escalabilidade**: Capacidade de processar petabytes de dados distribuídos em um cluster Hadoop.
+- **Custo-benefício**: Utiliza hardware comum, reduzindo custos em comparação com soluções de data warehousing tradicionais.
+- **Flexibilidade**: Suporte a diversos formatos de dados (e.g., Parquet, ORC, JSON) e integração com outras ferramentas do ecossistema Hadoop.
+- **Familiaridade**: A linguagem HiveQL é similar ao SQL, facilitando a curva de aprendizado para profissionais que já conhecem SQL.
+- **Extensibilidade**: Hive permite a definição de funções de usuário (UDFs) para estender suas capacidades e personalizar operações de consulta.
+- **Processamento em Lote**: Ideal para processamento de dados em lote, aproveitando o modelo de execução MapReduce.
+
+------------------------------------------------------------------------------------------------------------------------------
 
 # Air Flow
 Rotina de dev fodasse
 
-# Nefe
+# Nifi
 Interface gráfica de análise
-
-## Alguma pergunta????
-## Obrigado
