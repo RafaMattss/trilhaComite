@@ -233,5 +233,57 @@ t2 = BashOperator(
 t1 >> t2  # Define a dependência: t2 depende de t1
 ```
 -------------------------------------------------------------------------------------------------
-# Nifi
-Interface gráfica de análise
+# Guia para Apache NiFi
+
+## Introdução ao Apache NiFi
+O Apache NiFi é uma plataforma de integração de dados que facilita a automação do fluxo de dados entre sistemas. Ele foi projetado para automação do movimento de dados entre diferentes fontes e destinos, com um foco especial em escalabilidade, segurança e gestão de dados em tempo real. Originalmente desenvolvido pela NSA (Agência de Segurança Nacional dos EUA) e depois doado à Apache Software Foundation, o NiFi é utilizado por empresas para construir pipelines de dados complexos que podem ser monitorados e ajustados em tempo real.
+
+## Como Funciona o Apache NiFi
+O NiFi permite a criação de fluxos de dados através de uma interface gráfica, onde os usuários podem arrastar e soltar componentes para definir a lógica de integração de dados. Cada fluxo de dados é composto por uma série de processadores que executam operações específicas nos dados, como leitura, transformação, roteamento e escrita em diferentes sistemas. A comunicação entre esses processadores é gerida por filas que garantem o controle e a manipulação eficiente dos dados.
+
+## Para Que Serve o Apache NiFi
+O Apache NiFi é usado para:
+- **Ingestão de Dados**: Capturar dados de diversas fontes, incluindo bancos de dados, sistemas de arquivos, APIs, sensores IoT, etc.
+- **Transformação de Dados**: Modificar e transformar dados enquanto eles passam pelo fluxo, incluindo limpeza, agregação e formatação.
+- **Roteamento de Dados**: Enviar dados para diferentes destinos com base em regras definidas pelo usuário.
+- **Monitoramento e Auditoria**: Fornecer visibilidade e rastreamento completo do fluxo de dados, permitindo auditoria e monitoramento em tempo real.
+- **Integração de Sistemas**: Conectar diferentes sistemas, aplicações e serviços, permitindo a troca de dados de forma integrada.
+
+## Principais Conceitos do Apache NiFi
+
+### Fluxo de Dados (Data Flow)
+Um fluxo de dados no NiFi é a representação gráfica da movimentação e transformação de dados entre fontes e destinos. Ele é composto por diversos componentes interconectados, cada um executando uma tarefa específica.
+
+### Processadores (Processors)
+Os processadores são os blocos de construção dos fluxos de dados no NiFi. Cada processador realiza uma função específica, como leitura de dados, transformação, roteamento ou escrita em um destino. Existem processadores pré-definidos para várias tarefas comuns, mas também é possível criar processadores personalizados.
+
+### Conectores (Connections)
+Os conectores são os links que conectam processadores, formando o caminho pelo qual os dados fluem. Eles servem como filas que armazenam os dados temporariamente enquanto são transferidos de um processador para outro, permitindo controle de fluxo e buffering.
+
+### Controladores de Serviços (Controller Services)
+Os controladores de serviços fornecem configurações compartilhadas que podem ser usadas por múltiplos processadores, como conexões de banco de dados, acesso a APIs externas, ou configurações de segurança.
+
+### Propriedades de Processadores
+Cada processador no NiFi possui um conjunto de propriedades configuráveis que definem seu comportamento. Isso inclui parâmetros como fontes de dados, destinos, métodos de transformação, e qualquer outro detalhe necessário para a operação específica do processador.
+
+### Relacionamentos (Relationships)
+Os relacionamentos são os caminhos possíveis que os dados podem seguir após serem processados por um processador. Por exemplo, um processador pode ter relacionamentos como "sucesso", "falha", ou "sem correspondência", permitindo o roteamento condicional dos dados.
+
+### Grupos de Processos (Process Groups)
+Grupos de processos permitem a organização e modularização dos fluxos de dados. Eles agrupam um conjunto de processadores e conectores em uma única unidade lógica, facilitando a gestão e reutilização de partes complexas do fluxo de dados.
+
+### Templates
+Templates são modelos reutilizáveis de fluxos de dados. Eles permitem exportar e importar configurações de fluxos, facilitando a replicação de configurações em diferentes ambientes ou projetos.
+
+### Controle de Fluxo (Flow Control)
+O NiFi oferece várias formas de controle de fluxo, incluindo a definição de limites de taxa, tamanho de lote, e priorização de filas, garantindo que o sistema possa lidar com picos de carga e manter a eficiência operacional.
+
+## Exemplo de ingestão de Dados de um Banco de Dados
+```markdown
+1. **Processor**: `GenerateTableFetch` para ler dados de uma tabela de banco de dados.
+2. **Processor**: `ExecuteSQL` para executar a consulta SQL.
+3. **Processor**: `PutFile` para salvar os dados em um sistema de arquivos.
+
+**Flow**: `GenerateTableFetch` -> `ExecuteSQL` -> `PutFile` ```
+
+
