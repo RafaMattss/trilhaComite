@@ -155,8 +155,83 @@ Ao criar uma tabela particionada, o Hive armazena os dados em subdiretórios sep
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-# Air Flow
-Rotina de dev fodasse
+# Guia para Apache Airflow
 
+## Introdução ao Apache Airflow
+O Apache Airflow é uma plataforma open-source para criação, agendamento e monitoramento de fluxos de trabalho programáveis. Desenvolvido originalmente pelo Airbnb, o Airflow permite que você defina seus workflows como código, utilizando o Python para criar pipelines de dados complexos de maneira eficiente e reutilizável. Ele é amplamente utilizado para automação de processos em data engineering e data science.
+
+## Por Que Escolher o Apache Airflow
+- **Flexibilidade**: Escreva seus workflows em Python, permitindo fácil integração com bibliotecas e ferramentas do ecossistema Python.
+- **Escalabilidade**: Capacidade de escalar horizontalmente, distribuindo a carga de trabalho através de múltiplos nós de execução.
+- **Extensibilidade**: Suporte a uma vasta gama de operadores, hooks e executors, além de permitir a criação de plugins personalizados.
+- **Monitoramento e Logs**: Interface web intuitiva para monitoramento de tarefas, visualização de logs e gerenciamento de fluxos de trabalho.
+- **Comunidade Ativa**: Grande comunidade open-source, garantindo melhorias contínuas, suporte e vasta documentação.
+
+## Principais Conceitos do Apache Airflow
+
+### DAG (Directed Acyclic Graph)
+Uma DAG, ou Grafos Acíclicos Dirigidos, é uma coleção de todas as tarefas que você deseja executar, organizadas de uma maneira que reflete suas dependências. Em outras palavras, uma DAG é um grafo que direciona o fluxo de trabalho, onde cada nó representa uma tarefa e as arestas representam as dependências entre essas tarefas. 
+
+### Tarefas (Tasks)
+As tarefas são as unidades individuais de trabalho que compõem uma DAG. Elas são instâncias de operadores (Operators) que definem a ação que a tarefa irá executar, como transferência de dados, execução de scripts, ou chamada de APIs.
+
+### Operadores (Operators)
+Operadores são classes que encapsulam uma determinada tarefa. Existem diversos tipos de operadores, como `BashOperator` para executar comandos bash, `PythonOperator` para executar funções Python, e `Sensor` para verificar a disponibilidade de uma condição ou recurso.
+
+### Scheduler
+O Scheduler é o componente responsável por agendar e distribuir a execução das tarefas conforme definido nas DAGs. Ele monitora as DAGs e garante que as tarefas sejam executadas na ordem correta e no momento adequado.
+
+### Executor
+O Executor é a parte do Airflow que executa as tarefas. Existem vários tipos de executores, como o `SequentialExecutor`, `LocalExecutor`, `CeleryExecutor` e `KubernetesExecutor`, cada um oferecendo diferentes níveis de paralelismo e suporte a diferentes arquiteturas de cluster.
+
+## Arquitetura do Apache Airflow
+A arquitetura do Airflow consiste em vários componentes principais:
+- **Web Server**: Interface gráfica para criação, monitoramento e gerenciamento de DAGs.
+- **Scheduler**: Componente que verifica a execução das DAGs e distribui tarefas aos executores.
+- **Executor**: Componente que executa as tarefas.
+- **Workers**: Nós que realmente realizam o trabalho, executando as tarefas.
+- **Metadata Database**: Banco de dados que armazena o estado das DAGs, tarefas e logs de execução.
+
+## O Que é uma DAG e Como Usá-las
+### Definição de uma DAG
+Uma DAG é definida como um script Python que descreve o conjunto de tarefas e suas dependências. Aqui está um exemplo básico de uma DAG:
+
+```python
+from airflow import DAG
+from airflow.operators.bash_operator import BashOperator
+from datetime import datetime, timedelta
+
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'start_date': datetime(2023, 1, 1),
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
+}
+
+dag = DAG(
+    'example_dag',
+    default_args=default_args,
+    description='A simple example DAG',
+    schedule_interval=timedelta(days=1),
+)
+
+t1 = BashOperator(
+    task_id='print_date',
+    bash_command='date',
+    dag=dag,
+)
+
+t2 = BashOperator(
+    task_id='sleep',
+    bash_command='sleep 5',
+    dag=dag,
+)
+
+t1 >> t2  # Define a dependência: t2 depende de t1
+```
+-------------------------------------------------------------------------------------------------
 # Nifi
 Interface gráfica de análise
